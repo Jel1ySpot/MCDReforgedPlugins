@@ -1,0 +1,12 @@
+{
+    "id": "g15t",
+    "version": "1.0.0",
+    "name": "G15T",
+    "description": "返回死亡地點",
+    "author": "Jel1ySpot",
+    "link": "https://github.com/Jel1ySpot/MCDReforgedPlugins/tree/master/src/G15T",
+    "dependencies": {
+        "minecraft_data_api": ">=1.4",
+        "mcdreforged": ">=2.1.0"
+    }
+}

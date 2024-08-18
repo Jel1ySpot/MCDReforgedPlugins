@@ -1,0 +1,11 @@
+{
+    "id": "xevents",
+    "version": "1.0.0",
+    "name": "xEvents",
+    "description": "更多事件",
+    "author": "Jel1ySpot",
+    "link": "https://github.com/Jel1ySpot/MCDReforgedPlugins/tree/master/src/xEvents",
+    "dependencies": {
+        "minecraft_data_api": ">=1.4"
+    }
+}
