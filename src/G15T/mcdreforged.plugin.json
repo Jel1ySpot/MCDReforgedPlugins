@@ -7,7 +7,7 @@
     "link": "https://github.com/Jel1ySpot/MCDReforgedPlugins/tree/master/src/G15T",
     "dependencies": {
         "minecraft_data_api": ">=1.4",
-        "xEvents": ">=1.0.0",
+        "xevents": ">=1.0.0",
         "mcdreforged": ">=2.1.0"
     }
 }
