@@ -1,4 +1,4 @@
-\w{1,16} was slain by .+
+RE_LIST = r'''\w{1,16} was slain by .+
 \w{1,16} was stung to death by .+
 \w{1,16} was fireballed by .+
 \w{1,16} fell off some vines
@@ -124,4 +124,4 @@
 \w{1,16} was frozen to death by .+
 \w{1,16} left the confines of this world while fighting .+
 \w{1,16} was doomed to fall by .+ using .+
-\w{1,16} hit the ground too hard
+\w{1,16} hit the ground too hard'''.splitlines()
