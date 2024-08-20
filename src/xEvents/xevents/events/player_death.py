@@ -5,7 +5,7 @@ from mcdreforged.api.types import PluginServerInterface, Info
 from mcdreforged.api.decorator import new_thread
 from mcdreforged.plugin.plugin_event import MCDRPluginEvents
 
-from . import abstract_event
+from . import abstract_event, death_message
 
 class PlayerDeath(abstract_event.AbstractEvent):
     def parse(self, info: Info) -> bool:
@@ -22,23 +22,12 @@ class PlayerDeath(abstract_event.AbstractEvent):
         if self.parse(info):
             self.dispatch(info)
         
-    def load_death_message_data(self):
-        try:
-            with open(path.join(path.dirname(__file__), '../resources/death_message'), 'r', encoding='utf8') as file:
-                self.death_message_data = [line.strip() for line in file.readlines()]
-        except:
-            self.server.logger.exception('parser_manager.load_re_death_message.fail')
-            self.death_message_data = []
-    
     def get_death_message_list(self):
-        if self.death_message_data is None:
-            self.load_death_message_data()
-        return self.death_message_data
+        return death_message.RE_LIST
 
 
     def __init__(self, server: PluginServerInterface) -> None:
         super().__init__(server)
         self.event_id = 'xevents.player_death'
-        self.death_message_data = None
 
         server.register_event_listener(MCDRPluginEvents.GENERAL_INFO, self.on_info)
