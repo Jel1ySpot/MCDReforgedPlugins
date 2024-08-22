@@ -2,6 +2,7 @@
 from typing import Optional, Any
 import time
 
+from mcdreforged.api import rtext
 from mcdreforged.api.types import PluginServerInterface, PlayerCommandSource, Info
 from mcdreforged.api.command import *
 from mcdreforged.api.decorator import new_thread
@@ -25,13 +26,16 @@ DIMENSIONS = {
 HELP_MESSAGE = """§6!!getback/!!b §7返回死亡地點"""
 
 
+
 minecraft_data_api: Optional[Any]
+
+has_command_register: bool
 
 data: dict
 
 
 def on_load(server: PluginServerInterface, _):
-    global minecraft_data_api, data
+    global minecraft_data_api, has_command_register, data
     minecraft_data_api = server.get_plugin_instance("minecraft_data_api")
 
     server.register_translation(
@@ -74,9 +78,12 @@ def on_load(server: PluginServerInterface, _):
         dim = DIMENSIONS[minecraft_data_api.get_player_info(player, "Dimension")]
         data[player] = {"dim": dim, "pos": pos}
         save_data(server)
+        quick_c = ""
+        if has_command_register:
+            quick_c = rtext.RText(" [Getback]", rtext.RColor.yellow).c(rtext.RAction.run_command, "/!!getback")
 
         display_pos = " ".join([str(int(p)) for p in pos])
-        server.tell(player, server.rtr("help", display_pos))
+        server.tell(player, rtext.RTextList(server.rtr("help", display_pos), quick_c))
 
     # register
     server.register_command(
@@ -87,10 +94,14 @@ def on_load(server: PluginServerInterface, _):
 
     server.register_event_listener(LiteralEvent("xevents.player_death"), on_death)
 
-    data = server.load_config_simple(
-        "data.json", default_config={"data": {}}, echo_in_console=False
-    )["data"]
+    file = server.load_config_simple(
+        "data.json", default_config={"minecraft_command_register": False, "data": {}}, echo_in_console=False
+    )
+    
+    data = file["data"]
+
+    has_command_register = file["minecraft_command_register"]
 
 
 def save_data(server: PluginServerInterface):
-    server.save_config_simple({"data": data}, "data.json")
+    server.save_config_simple({"minecraft_command_register": has_command_register,"data": data}, "data.json")
